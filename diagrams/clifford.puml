@@ -1,0 +1,79 @@
+@startuml
+interface FileSystem{
++ Directory getRoot()
++ Directory getDirectory()
+}
+FileSystem --> Directory
+
+class File extends Node{
+name: String
+parent: Directory
++String getName()
++Directory getParent()
++getPath()
+}
+
+class InMemoryFileSystem implements FileSystem{
+root: Directory
+current: Directory
++ Directory getRoot()
++ Directory getDirectory()
+}
+
+abstract class Node{
+name: String
+parent: Directory
++String getName()
++Directory getParent()
++getPath()
+}
+
+class Directory implements Node{
+List<File> childrenFiles
++addFile(Node)
++removeFile(String)
++getName()
++getParent()
+}
+
+
+interface Command{
+CommandType
++String execute(FileSystem)
+}
+
+class ls extends Command{
+
+}
+
+class cd extends Command{
+
+}
+
+class touch extends Command{
+
+}
+
+class mkdir extends Command{
+
+}
+
+class rm extends Command{
+
+}
+
+class pwd extends Command{
+
+}
+
+
+ls ..> FileSystem
+cd ..> FileSystem
+touch ..> FileSystem
+mkdir ..> FileSystem
+rm ..> FileSystem
+pwd ..> FileSystem
+
+
+
+@enduml
