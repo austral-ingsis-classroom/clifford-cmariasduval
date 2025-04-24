@@ -13,16 +13,47 @@ public class Rm implements Command {
   // mensaje de error.
 
   private boolean recursive;
-  private String fileName;
+  private String toBeDeletedName;
 
-  public Rm(String fileName, boolean recursive) {
+  public Rm(String toBeDeletedName, boolean recursive) {
     this.recursive = recursive;
-    this.fileName = fileName;
+    this.toBeDeletedName = toBeDeletedName;
   }
 
 
     @Override
     public String execute(InMemoryFileSystem fileSystem, List<String> arguments) throws FileSystemException {
-        return "";
+        Directory current = fileSystem.getCurrentPosition();
+        Node node = getNodeToDelete(current);
+
+        validate(node);
+        deleteNode(current, node);
+        return "'" + toBeDeletedName + "' removed";
+    }
+
+    private Node getNodeToDelete(Directory current) throws FileSystemException {
+        Node node = current.getChild(toBeDeletedName);
+        if (node == null) {
+            throw new FileSystemException("'"+ toBeDeletedName + "' not found");
+        }
+        return node;
+    }
+
+    private void validate(Node node) throws FileSystemException {
+      if(node instanceof Directory directory && !recursive && !directory.getChildren().isEmpty()){
+          throw new FileSystemException("Directory is not empty");
+      }
+    }
+
+    private void deleteNode(Directory current, Node node) throws FileSystemException {
+        if (node instanceof Directory dir) {
+            if (recursive) {
+                // delete all children recursively
+                for (Node child : List.copyOf(dir.getChildren())) {
+                    deleteNode(dir, child);
+                }
+            }
+        }
+        current.removeChild(node);
     }
 }

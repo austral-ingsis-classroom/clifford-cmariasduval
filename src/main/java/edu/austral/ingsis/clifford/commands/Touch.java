@@ -22,6 +22,18 @@ public class Touch implements Command {
 
     @Override
     public String execute(InMemoryFileSystem fileSystem, List<String> arguments) throws FileSystemException {
-        return "";
+      Directory current = fileSystem.getCurrentPosition();
+
+      if(existsInDirectory(current, fileName)) {
+          throw new FileSystemException("Directory already exists");
+      }
+
+      File newFile = new File(fileName, current);
+      current.addChild(newFile);
+      return "'" + fileName + "' file created";
+    }
+
+    private boolean existsInDirectory(Directory current, String fileName) {
+      return current.getChildren().stream().anyMatch(child -> child.getName().equals(fileName));
     }
 }

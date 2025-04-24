@@ -21,6 +21,26 @@ public class Mkdir implements Command {
 
     @Override
     public String execute(InMemoryFileSystem fileSystem, List<String> arguments) throws FileSystemException {
-        return "";
+        Directory currentDirectory = fileSystem.getCurrentPosition();
+        validateName(directoryName);
+        checkIfExists(currentDirectory, directoryName);
+        createDirectory(currentDirectory, directoryName);
+        return "'" + directoryName + "' directory created";
+    }
+
+    private void validateName(String directoryName) throws FileSystemException {
+      if(directoryName.contains("/") || directoryName.contains(" ")) {
+          throw new FileSystemException("It can't have any '/' or spaces");
+      }
+    }
+
+    private void checkIfExists(Directory currentDirectory, String directoryName) throws FileSystemException {
+      if(currentDirectory.getChild(directoryName) != null) {
+          throw new FileSystemException("Directory already exists");
+      }
+    }
+
+    private void createDirectory(Directory currentDirectory, String directoryName) throws FileSystemException {
+      currentDirectory.createDirectory(directoryName);
     }
 }

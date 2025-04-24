@@ -7,5 +7,5 @@ import java.nio.file.FileSystemException;
 import java.util.List;
 
 public interface Command {
-  public String execute(InMemoryFileSystem fileSystem, List<String> arguments) throws FileSystemException;
+  public String execute(InMemoryFileSystem fileSystem, List<String> parameters) throws FileSystemException;
 }
