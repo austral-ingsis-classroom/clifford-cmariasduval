@@ -2,6 +2,10 @@ package edu.austral.ingsis.clifford.commands;
 
 import edu.austral.ingsis.clifford.node.Directory;
 import edu.austral.ingsis.clifford.node.FileSystem;
+import edu.austral.ingsis.clifford.node.InMemoryFileSystem;
+
+import java.nio.file.FileSystemException;
+import java.util.List;
 
 public class Mkdir implements Command {
 
@@ -14,21 +18,9 @@ public class Mkdir implements Command {
     this.directoryName = directoryName;
   }
 
-  @Override
-  public String execute(FileSystem file) {
-    Directory directory = file.getCurrentPosition();
 
-    if (directoryName.contains("/") || directoryName.contains(" ")) {
-      return "The directory name must not contain spaces or '/'";
+    @Override
+    public String execute(InMemoryFileSystem fileSystem, List<String> arguments) throws FileSystemException {
+        return "";
     }
-
-    if (directory.hasChildren(directoryName)) {
-      return "There already exists a directory with the name '" + directoryName + "'";
-    }
-
-    Directory newDirectory = new Directory(directoryName, directory);
-    directory.addChild(newDirectory);
-
-    return "'" + directoryName + "' directory created";
-  }
 }

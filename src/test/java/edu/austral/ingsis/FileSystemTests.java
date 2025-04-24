@@ -3,7 +3,7 @@ package edu.austral.ingsis;
 import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import edu.austral.ingsis.clifford.commands.CommandRunner;
+import edu.austral.ingsis.clifford.node.Runner;
 import edu.austral.ingsis.clifford.node.InMemoryFileSystem;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 public class FileSystemTests {
 
   private final FileSystemRunner runner =
-      new SimpleFileSystemRunner(new InMemoryFileSystem(), new CommandRunner());
+      new SimpleFileSystemRunner(new InMemoryFileSystem(), new Runner());
 
   private void executeTest(List<Map.Entry<String, String>> commandsAndResults) {
     final List<String> commands = commandsAndResults.stream().map(Map.Entry::getKey).toList();

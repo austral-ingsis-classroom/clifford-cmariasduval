@@ -3,6 +3,10 @@ package edu.austral.ingsis.clifford.commands;
 import edu.austral.ingsis.clifford.node.Directory;
 import edu.austral.ingsis.clifford.node.File;
 import edu.austral.ingsis.clifford.node.FileSystem;
+import edu.austral.ingsis.clifford.node.InMemoryFileSystem;
+
+import java.nio.file.FileSystemException;
+import java.util.List;
 
 public class Touch implements Command {
 
@@ -15,21 +19,9 @@ public class Touch implements Command {
     this.fileName = fileName;
   }
 
-  @Override
-  public String execute(FileSystem file) {
-    Directory directory = file.getCurrentPosition();
 
-    if (fileName.contains("/") || fileName.contains(" ")) {
-      return "You can't use spaces or '/' in the name of a file ";
+    @Override
+    public String execute(InMemoryFileSystem fileSystem, List<String> arguments) throws FileSystemException {
+        return "";
     }
-
-    if (directory.hasChildren(fileName)) {
-      return "There is already a file named like that";
-    }
-
-    File newFile = new File(fileName, directory);
-    directory.addChild(newFile);
-
-    return "Success adding the file" + fileName;
-  }
 }

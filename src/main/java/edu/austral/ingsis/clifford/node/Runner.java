@@ -1,12 +1,13 @@
-package edu.austral.ingsis.clifford.commands;
+package edu.austral.ingsis.clifford.node;
 
 import static java.util.Arrays.copyOfRange;
 
-import edu.austral.ingsis.clifford.node.FileSystem;
+import edu.austral.ingsis.clifford.commands.*;
+
 import java.nio.file.FileSystemException;
 import java.util.Optional;
 
-public class CommandRunner {
+public class Runner {
 
   public String runCommand(String command, FileSystem fileSystem) {
     String[] parts = command.trim().split("\\s+");
