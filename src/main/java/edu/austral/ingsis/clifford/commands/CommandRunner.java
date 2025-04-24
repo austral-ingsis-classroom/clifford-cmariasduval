@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface CommandRunner {
 
-    boolean supports(String command);
+  boolean supports(String command);
 
-    Optional<Command> parse(String[] input) throws FileSystemException;
+  Optional<Command> parse(String[] input) throws FileSystemException;
 }
