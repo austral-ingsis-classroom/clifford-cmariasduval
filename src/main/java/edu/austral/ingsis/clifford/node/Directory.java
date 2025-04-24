@@ -32,23 +32,17 @@ public class Directory extends Node {
     return children;
   }
 
-  public boolean hasChildren(String name) {
-    for (Node child : children) {
-      if (child.toString().equals(name)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   public String getFullPath() {
+    // System.out.println("getting full path...");
     StringBuilder path = new StringBuilder();
-    Directory directory = this;
-    while (directory != null) {
-      path.insert(0, "/" + directory.toString());
-      directory = directory.getParent();
+    Directory current = this;
+
+    while (current.getParent() != null) {
+      path.insert(0, "/" + current.toString());
+      current = current.getParent();
     }
-    return path.toString();
+
+    return path.length() == 0 ? "/" : path.toString();
   }
 
   public void createDirectory(String name) {
